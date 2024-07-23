@@ -2,30 +2,15 @@ import React, { useState, useEffect } from 'react';
 import '../styles.css';
 import MovieCard from './MovieCard';
 
-export default function MoviesGrid() {
-    const [movies, setMovies] = useState([]);
+export default function MoviesGrid({ movies, watchlist, toggleWatchlist }) {
 
     const [searchTerm, setSearchTerm] = useState("");
     const [genre, setGenre] = useState("All Genres");
     const [rating, setRating] = useState("All");
-
-
-
     const handleSearchChange = (e) => setSearchTerm(e.target.value);
-
-
     const handleGenreChange = (e) => setGenre(e.target.value);
-
     const handleRatingChange = (e) => setRating(e.target.value);
-
-    useEffect(() => {
-        fetch("movies.json")
-            .then(response => response.json())
-            .then(data => setMovies(data));
-    }, []);
-
     const matchesSearchTerm = (movie, searchTerm) => movie.title.toLowerCase().includes(searchTerm.toLowerCase());
-
     const matchesGenre = (movie, genre) => {
         return (
             genre === "All Genres" ||
@@ -104,12 +89,15 @@ export default function MoviesGrid() {
                 <button onClick={handleResetFilters}>Reset Filters</button>
             </div>
 
-            <div className='movies-grid'>
-                {
-                    filteredMovies.map(movie => (
-                        <MovieCard movie={movie} key={movie.id}></MovieCard>
-                    ))
-                }
+            <div className="movies-grid">
+                {filteredMovies.map((movie) => (
+                    <MovieCard
+                        movie={movie}
+                        key={movie.id}
+                        toggleWatchlist={toggleWatchlist}
+                        isWatchlisted={watchlist.includes(movie.id)}
+                    ></MovieCard>
+                ))}
             </div>
         </div >
     );

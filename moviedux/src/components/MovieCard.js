@@ -1,11 +1,9 @@
 import React from "react";
-import '../styles.css'
+import "../styles.css";
 
-
-export default function MovieCard({ movie, toggleWatchlist, isWatchlisted }) {
-
+export default function MovieCard({ movie, isWatchlisted, toggleWatchlist }) {
     const handleError = (e) => {
-        e.target.src = "/images/default.jpg";
+        e.target.src = "images/default.jpg";
     };
 
     const getRatingClass = (rating) => {
@@ -17,12 +15,20 @@ export default function MovieCard({ movie, toggleWatchlist, isWatchlisted }) {
     };
 
     return (
-        <div key={movie.id} className='movie-card'>
-            <img src={"images/" + movie.image} alt={movie.title} onError={handleError} />
-            <div className='movie-card-info'>
-                <h3 className='movie-card-title'>{movie.title}</h3>
-                <p className="movie-card-genre">{movie.genre}</p>
-                <p className={getRatingClass(movie.rating)}>{movie.rating}</p>
+        <div key={movie.id} className="movie-card">
+            <img
+                src={`images/${movie.image}`}
+                alt={movie.title}
+                onError={handleError}
+            />
+            <div className="movie-card-info">
+                <h3 className="movie-card-title">{movie.title}</h3>
+                <div>
+                    <span className="movie-card-genre">{movie.genre}</span>
+                    <span className={`movie-card-rating ${getRatingClass(movie.rating)}`}>
+                        {movie.rating}
+                    </span>
+                </div>
                 <label className="switch">
                     <input
                         type="checkbox"
@@ -32,10 +38,10 @@ export default function MovieCard({ movie, toggleWatchlist, isWatchlisted }) {
 
                     <span className="slider">
                         <span className="slider-label">
+                            {isWatchlisted ? "In Watchlist" : "Add to Watchlist"}
                         </span>
                     </span>
                 </label>
-
             </div>
         </div>
     );
